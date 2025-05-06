@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shift + Reverse + Scramble Cipher</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+        input, button {
+            padding: 10px;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Shift + Reverse + Scramble Cipher</h2>
+
+    <label for="plaintext">Enter your message:</label>
+    <input type="text" id="plaintext" placeholder="Enter message here" />
+    
+    <label for="shift">Enter shift value (e.g., 3):</label>
+    <input type="number" id="shift" value="3" />
+
+    <button onclick="encryptMessage()">Encrypt</button>
+
+    <div id="result"></div>
+
+    <script>
+        // Shift each letter in the text by a certain number of positions
+        function shiftText(text, shift) {
+            return text.split('').map(char => {
+                if (/[A-Za-z]/.test(char)) {
+                    const base = char === char.toUpperCase() ? 'A'.charCodeAt(0) : 'a'.charCodeAt(0);
+                    return String.fromCharCode(((char.charCodeAt(0) - base + shift) % 26 + 26) % 26 + base);
+                }
+                return char; // Non-alphabet characters remain unchanged
+            }).join('');
+        }
+
+        // Reverse the string
+        function reverseText(text) {
+            return text.split('').reverse().join('');
+        }
+
+        // Scramble the letters randomly
+        function scrambleText(text) {
+            let array = text.split('');
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]]; // Swap
+            }
+            return array.join('');
+        }
+
+        // Encrypt the message
+        function encryptMessage() {
+            const plaintext = document.getElementById('plaintext').value;
+            const shift = parseInt(document.getElementById('shift').value);
+            
+            let shifted = shiftText(plaintext, shift);
+            let reversed = reverseText(shifted);
+            let scrambled = scrambleText(reversed);
+            
+            document.getElementById('result').innerText = "Encrypted message: " + scrambled;
+        }
+
+        // Decrypting would require reversing the scramble, which is difficult without the key
+    </script>
+
+</body>
+</html>
