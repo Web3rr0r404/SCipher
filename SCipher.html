@@ -33,6 +33,7 @@
     <input type="number" id="shift" value="3" />
 
     <button onclick="encryptMessage()">Encrypt</button>
+    <button onclick="decryptMessage()">Decrypt</button>
 
     <div id="result"></div>
 
@@ -63,6 +64,12 @@
             return array.join('');
         }
 
+        // Unscramble is difficult without knowing the pattern, so this function is a placeholder
+        function unscrambleText(text) {
+            // In real applications, this would require knowing how it was scrambled
+            return text; // Placeholder: In practice, you would need to reverse the scrambling pattern.
+        }
+
         // Encrypt the message
         function encryptMessage() {
             const plaintext = document.getElementById('plaintext').value;
@@ -75,7 +82,20 @@
             document.getElementById('result').innerText = "Encrypted message: " + scrambled;
         }
 
-        // Decrypting would require reversing the scramble, which is difficult without the key
+        // Decrypt the message (reverse encryption steps)
+        function decryptMessage() {
+            const ciphertext = document.getElementById('plaintext').value; // Using the same input for simplicity
+            const shift = parseInt(document.getElementById('shift').value);
+            
+            // Scramble is random, so we can't truly unscramble without the key/pattern, so this is a placeholder
+            let unscrambled = unscrambleText(ciphertext); 
+
+            let reversed = reverseText(unscrambled);
+            let decrypted = shiftText(reversed, -shift);
+            
+            document.getElementById('result').innerText = "Decrypted message: " + decrypted;
+        }
+
     </script>
 
 </body>
