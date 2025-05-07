@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shift + Reverse + Scramble Cipher</title>
+    <title>Shift + Reverse Cipher</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -24,18 +24,27 @@
 </head>
 <body>
 
-    <h2>Shift + Reverse + Scramble Cipher</h2>
+    <h2>Shift + Reverse Cipher</h2>
 
-    <label for="plaintext">Enter your message:</label>
+    <!-- Encryption Section -->
+    <label for="plaintext">Enter your message to encrypt:</label>
     <input type="text" id="plaintext" placeholder="Enter message here" />
     
     <label for="shift">Enter shift value (e.g., 3):</label>
     <input type="number" id="shift" value="3" />
 
     <button onclick="encryptMessage()">Encrypt</button>
+
+    <div id="encryptedResult"></div>
+
+    <!-- Decryption Section -->
+    <h3>Decrypt Message</h3>
+    <label for="ciphertext">Enter your encrypted message:</label>
+    <input type="text" id="ciphertext" placeholder="Enter encrypted message here" />
+
     <button onclick="decryptMessage()">Decrypt</button>
 
-    <div id="result"></div>
+    <div id="decryptedResult"></div>
 
     <script>
         // Shift each letter in the text by a certain number of positions
@@ -54,22 +63,6 @@
             return text.split('').reverse().join('');
         }
 
-        // Scramble the letters randomly
-        function scrambleText(text) {
-            let array = text.split('');
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]]; // Swap
-            }
-            return array.join('');
-        }
-
-        // Unscramble is difficult without knowing the pattern, so this function is a placeholder
-        function unscrambleText(text) {
-            // In real applications, this would require knowing how it was scrambled
-            return text; // Placeholder: In practice, you would need to reverse the scrambling pattern.
-        }
-
         // Encrypt the message
         function encryptMessage() {
             const plaintext = document.getElementById('plaintext').value;
@@ -77,23 +70,19 @@
             
             let shifted = shiftText(plaintext, shift);
             let reversed = reverseText(shifted);
-            let scrambled = scrambleText(reversed);
             
-            document.getElementById('result').innerText = "Encrypted message: " + scrambled;
+            document.getElementById('encryptedResult').innerText = "Encrypted message: " + reversed;
         }
 
         // Decrypt the message (reverse encryption steps)
         function decryptMessage() {
-            const ciphertext = document.getElementById('plaintext').value; // Using the same input for simplicity
+            const ciphertext = document.getElementById('ciphertext').value;
             const shift = parseInt(document.getElementById('shift').value);
             
-            // Scramble is random, so we can't truly unscramble without the key/pattern, so this is a placeholder
-            let unscrambled = unscrambleText(ciphertext); 
-
-            let reversed = reverseText(unscrambled);
+            let reversed = reverseText(ciphertext);
             let decrypted = shiftText(reversed, -shift);
             
-            document.getElementById('result').innerText = "Decrypted message: " + decrypted;
+            document.getElementById('decryptedResult').innerText = "Decrypted message: " + decrypted;
         }
 
     </script>
